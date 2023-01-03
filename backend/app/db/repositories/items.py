@@ -18,6 +18,7 @@ from app.db.repositories.profiles import ProfilesRepository
 from app.db.repositories.tags import TagsRepository
 from app.models.domain.items import Item
 from app.models.domain.users import User
+import logging
 
 SELLER_USERNAME_ALIAS = "seller_username"
 SLUG_ALIAS = "slug"
@@ -199,12 +200,13 @@ class ItemsRepository(BaseRepository):  # noqa: WPS214
             # fmt: on
 
         if title:
+            
             query_params.append('%' + title + '%')
             query_params_count += 1
-
+            logging.warn(title)
             # fmt: off
             query = query.where(
-                    items.title.like(Parameter(query_params_count)),
+                    items.title == Parameter(query_params_count),
                 ) 
             # fmt: on
 
